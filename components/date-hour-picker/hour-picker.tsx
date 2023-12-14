@@ -1,25 +1,42 @@
+"use client";
 import { format } from "date-fns";
-import { DateTime } from "@/types";
+
+import { useDateTime } from "@/hooks/useDateTime";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
   hours?: Date[];
-  onHourClick: React.Dispatch<React.SetStateAction<DateTime | undefined>>;
+  disabledHours?: number[];
 };
 
-const HourPicker = ({ hours, onHourClick }: Props) => {
+const HourPicker = ({ hours, disabledHours }: Props) => {
+  const setTime = useDateTime((state) => state.setTime);
+  const time = useDateTime((state) => state.time);
+
   return (
     <div className="grid grid-cols-5 gap-2 text-center">
-      {hours?.map((hour, index) => [
-        <Button
-          variant={"hour"}
-          size={"hour"}
-          key={`${index}-hour`}
-          onClick={() => onHourClick((prev) => ({ ...prev, hour }))}
-        >
-          {format(hour, "kk:mm")}
-        </Button>,
-      ])}
+      {hours?.map((hour, index) => {
+        return (
+          <Button
+            variant={"hour"}
+            size={"hour"}
+            key={`${index}-hour`}
+            onClick={() => {
+              setTime(hour);
+            }}
+            disabled={disabledHours?.includes(hour.getTime())}
+            className={cn(
+              " dark:disabled:bg-gray-500 ",
+              time?.getTime() === hour.getTime()
+                ? "bg-sky-600 text-white hover:bg-sky-500"
+                : ""
+            )}
+          >
+            {format(hour, "kk:mm")}
+          </Button>
+        );
+      })}
     </div>
   );
 };
