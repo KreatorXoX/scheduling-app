@@ -1,18 +1,24 @@
-import HourItem from "./hour-item";
+import { format } from "date-fns";
+import { DateTime } from "@/types";
+import { Button } from "../ui/button";
 
-type Props = { startHour: number; endHour: number };
+type Props = {
+  hours?: Date[];
+  onHourClick: React.Dispatch<React.SetStateAction<DateTime | undefined>>;
+};
 
-const HourPicker = ({ startHour, endHour }: Props) => {
-  const hours = [];
-  for (let i = startHour; i <= endHour; i++) {
-    hours.push(i);
-  }
-
+const HourPicker = ({ hours, onHourClick }: Props) => {
   return (
     <div className="grid grid-cols-5 gap-2 text-center">
-      {hours.flatMap((hour, index) => [
-        <HourItem key={`${index}-0`} innerText={`${hour}:00`} />,
-        <HourItem key={`${index}-1`} innerText={`${hour}:30`} />,
+      {hours?.map((hour, index) => [
+        <Button
+          variant={"hour"}
+          size={"hour"}
+          key={`${index}-hour`}
+          onClick={() => onHourClick((prev) => ({ ...prev, hour }))}
+        >
+          {format(hour, "kk:mm")}
+        </Button>,
       ])}
     </div>
   );
