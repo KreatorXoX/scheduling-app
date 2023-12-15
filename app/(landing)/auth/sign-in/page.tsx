@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { useAction } from "@/hooks/useActions";
 
-import toast from "react-hot-toast";
 import { signInUser } from "@/actions/signin-user";
 import { useRouter } from "next/navigation";
 
@@ -23,15 +22,7 @@ type Props = {};
 
 const SignInPage = (props: Props) => {
   const router = useRouter();
-  const { execute } = useAction(signInUser, {
-    onComplete: () => {
-      router.push("/");
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Error signing in");
-    },
-  });
+  const { execute } = useAction(signInUser, {});
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -74,6 +65,7 @@ const SignInPage = (props: Props) => {
                   <FormSubmitButton innerText="Login" customClasses="w-full" />
                   <Button
                     // disabled={isLoading}
+                    onClick={() => {}}
                     type="button"
                     className="flex gap-2 items-center w-full"
                     size={"sm"}

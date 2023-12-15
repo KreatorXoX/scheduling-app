@@ -47,3 +47,11 @@ model User {
   accounts       Account[]
   sessions       Session[]
 }
+
+model VerificationToken {
+  identifier String   @id @map("_id")
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

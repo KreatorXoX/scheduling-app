@@ -41,7 +41,7 @@ const SignUpPage = (props: Props) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    if (!name || !email || !password) return;
+    // if (!name || !email || !password) return;
 
     execute({ name, email, password });
   };

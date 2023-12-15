@@ -5,13 +5,15 @@ import bycrypt from "bcrypt";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
+import { Session, User } from "next-auth/types";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
     GoogleProvider,
     CredentialsProvider({
-      name: "Credentials",
+      name: "credentials",
+      id: "credentials",
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
@@ -36,7 +38,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           inComingCredentials.password as string,
           user.hashedPassword
         );
-        console.log(isMatch);
 
         if (!isMatch) {
           throw new Error("Invalid credentials");
@@ -47,19 +48,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn() {
+    async signIn({ user }) {
+      console.log("signin");
+      if (!user) return false;
       return true;
     },
-    async session({ session, user }) {
+    async session({ session, user, token }) {
+      if (token?.user) {
+        session.user.id = token.user.id;
+        return session;
+      }
+      console.log("session ", session);
       session.user.id = user.id;
+      console.log("session ", session);
       return session;
     },
-    async jwt({ token, user, session, account }) {
-      if (user) {
-        token.user = user;
-      }
-
-      return token;
-    },
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.AUTH_SECRET,
 });
