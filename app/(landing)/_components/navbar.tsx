@@ -11,10 +11,10 @@ export const Navbar = (props: Props) => {
       <div className="ml-10 hidden md:block">X</div>
       <div className="w-full flex md:justify-end justify-between items-center gap-5 px-10 ">
         <Button size={"sm"} variant={"outline"} asChild>
-          <Link href={"/sign-in"}>Login</Link>
+          <Link href={"/auth/sign-in"}>Login</Link>
         </Button>
         <Button size={"sm"} variant={"default"} asChild>
-          <Link href={"/sign-up"}>Sign up </Link>
+          <Link href={"/auth/sign-up"}>Sign up </Link>
         </Button>
         <ThemeToggle />
       </div>
