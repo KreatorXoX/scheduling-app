@@ -1,44 +1,27 @@
-// "use server";
-// import { signIn } from "next-auth/react";
+"use server";
 
-// import { createSafeAction } from "@/lib/create-safe-action";
+import { createSafeAction } from "@/lib/create-safe-action";
 
-// import { InputType, ReturnType } from "./input-types";
-// import { SignInUserSchema } from "./schema";
+import { InputType, ReturnType } from "./input-types";
 
-// const handler = async (data: InputType): Promise<ReturnType> => {
-//   const { email, password } = data;
+import { signIn } from "@/config/auth";
+import { SignInUserSchema } from "./schema";
 
-//   let user;
-//   try {
-//     // user = await db.user.create({
-//     //   data: {
-//     //     name,
-//     //     hashedPassword,
-//     //     email,
-//     //   },
-//     //   select: {
-//     //     id: true,
-//     //     name: true,
-//     //     email: true,
-//     //     emailVerified: true,
-//     //     image: true,
-//     //   },
-//     // });
-//     signIn("credentials", {
-//       ...data,
-//       redirect: false,
-//     });
+const handler = async (data: InputType): Promise<ReturnType> => {
+  try {
+    await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+      callbackUrl: "http://localhost:3000/",
+    });
+  } catch (error) {
+    console.log(error);
+    return {
+      error: "Database Internal Error while signing in user",
+    };
+  }
+  return { data: null };
+};
 
-//     console.log(user);
-
-//     return { data: user };
-//   } catch (error) {
-//     console.log(error);
-//     return {
-//       error: "Database Internal Error while signing in user",
-//     };
-//   }
-// };
-
-// export const signInUser = createSafeAction(SignInUserSchema, handler);
+export const signInUser = createSafeAction(SignInUserSchema, handler);

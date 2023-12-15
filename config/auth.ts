@@ -6,7 +6,7 @@ import bycrypt from "bcrypt";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 
-export const { handlers, auth } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
     GoogleProvider,
@@ -21,11 +21,7 @@ export const { handlers, auth } = NextAuth({
         if (!inComingCredentials?.email || !inComingCredentials?.password) {
           throw new Error("Invalid / Missing credentials");
         }
-        console.log({
-          first: inComingCredentials.email,
-          second: inComingCredentials.password,
-        });
-        console.log("auth :", inComingCredentials);
+
         const user = await db.user.findUnique({
           where: {
             email: inComingCredentials.email as string,
@@ -40,6 +36,7 @@ export const { handlers, auth } = NextAuth({
           inComingCredentials.password as string,
           user.hashedPassword
         );
+        console.log(isMatch);
 
         if (!isMatch) {
           throw new Error("Invalid credentials");
@@ -50,9 +47,19 @@ export const { handlers, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn() {
+      return true;
+    },
     async session({ session, user }) {
       session.user.id = user.id;
       return session;
+    },
+    async jwt({ token, user, session, account }) {
+      if (user) {
+        token.user = user;
+      }
+
+      return token;
     },
   },
 });

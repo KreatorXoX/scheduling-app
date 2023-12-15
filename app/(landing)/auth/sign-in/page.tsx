@@ -15,12 +15,23 @@ import {
 } from "@/components/ui/dialog";
 import { useAction } from "@/hooks/useActions";
 
-import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import { signInUser } from "@/actions/signin-user";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const SignInPage = (props: Props) => {
+  const router = useRouter();
+  const { execute } = useAction(signInUser, {
+    onComplete: () => {
+      router.push("/");
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Error signing in");
+    },
+  });
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -34,21 +45,8 @@ const SignInPage = (props: Props) => {
     const password = formData.get("password") as string;
 
     if (!email || !password) return;
-    signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    }).then((callback) => {
-      if (callback?.ok) {
-        toast.success("Login successful");
-      }
 
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
-    });
-
-    //execute({ email, password });
+    execute({ email, password });
   };
   return (
     <div className="mt-20">
