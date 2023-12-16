@@ -54,7 +54,7 @@ const DatePicker = (props: Props) => {
   ];
 
   return (
-    <div className="space-y-8 pt-6 max-w-xs mx-auto flex items-center flex-col">
+    <div className="space-y-8 max-w-xs mx-auto flex items-center flex-col mt-10">
       <Calendar
         fixedWeeks
         weekStartsOn={1}
