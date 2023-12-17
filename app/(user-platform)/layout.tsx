@@ -1,6 +1,7 @@
-import { auth } from "@/config/auth";
 import { redirect } from "next/navigation";
-import React from "react";
+
+import { auth } from "@/config/auth";
+
 import { UserNavbar } from "./_components/navbar";
 
 type Props = { children: React.ReactNode };
@@ -13,7 +14,7 @@ const HomeLayout = async ({ children }: Props) => {
   }
   return (
     <div className="min-h-screen relative">
-      <UserNavbar />
+      <UserNavbar userImage={session.user.image} username={session.user.name} />
       {children}
     </div>
   );

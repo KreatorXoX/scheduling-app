@@ -1,7 +1,8 @@
-import React from "react";
-import { Navbar } from "./_components/navbar";
-import { auth } from "@/config/auth";
 import { redirect } from "next/navigation";
+
+import { auth } from "@/config/auth";
+
+import { Navbar } from "./_components/navbar";
 
 type Props = {
   children: React.ReactNode;

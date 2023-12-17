@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
 import { useFormStatus } from "react-dom";
-import { Button } from "../ui/button";
+
 import { cn } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
 
 type Props = {
   innerText?: string;

@@ -2,8 +2,10 @@
 import { format } from "date-fns";
 
 import { useDateTime } from "@/hooks/useDateTime";
-import { Button } from "../ui/button";
+
 import { cn } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
 
 type Props = {
   hours?: Date[];

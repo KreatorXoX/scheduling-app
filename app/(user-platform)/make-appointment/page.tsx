@@ -1,5 +1,4 @@
 import DateTimePicker from "@/components/date-hour-picker";
-import React from "react";
 
 type Props = {};
 

@@ -2,11 +2,14 @@
 import { add, format } from "date-fns";
 
 import { cn } from "@/lib/utils";
+
 import { useDateTime } from "@/hooks/useDateTime";
-import { Calendar } from "@/components/ui/calendar";
-import HourPicker from "./hour-picker";
-import { Button } from "../ui/button";
 import { useAppointments } from "@/hooks/useAppointments";
+
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+
+import HourPicker from "./hour-picker";
 
 type Props = {};
 
