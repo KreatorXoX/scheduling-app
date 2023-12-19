@@ -12,8 +12,7 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-
-import UserAvatar from "./user-avatar";
+import UserAvatar from "@/app/(user-platform)/_components/user-avatar";
 
 type Props = { userImage?: string | null; username?: string | null };
 
@@ -46,21 +45,20 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             <ThemeToggle />
           </div>
           <Button
-            onClick={onClose}
             size={"sm"}
             variant={"link"}
             asChild
             className="w-full justify-start"
           >
             <Link
-              href={"/my-appointments"}
+              href={"/employee-create"}
               className={cn(
-                currentPath === "/my-appointments"
+                currentPath === "/employee-create"
                   ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
                   : ""
               )}
             >
-              My Appointments
+              Create Employee
             </Link>
           </Button>
           <Button
@@ -68,17 +66,33 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             variant={"link"}
             asChild
             className="w-full justify-start"
-            onClick={onClose}
           >
             <Link
-              href={"/make-appointment"}
+              href={"/employee-list"}
               className={cn(
-                currentPath === "/make-appointment"
+                currentPath === "/employee-list"
                   ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
                   : ""
               )}
             >
-              Make Appointment
+              Employee List
+            </Link>
+          </Button>
+          <Button
+            size={"sm"}
+            variant={"link"}
+            asChild
+            className="w-full justify-start"
+          >
+            <Link
+              href={"/appointment-list"}
+              className={cn(
+                currentPath === "/appointment-list"
+                  ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
+                  : ""
+              )}
+            >
+              Appointment List
             </Link>
           </Button>
 

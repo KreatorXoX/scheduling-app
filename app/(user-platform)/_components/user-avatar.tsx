@@ -7,7 +7,7 @@ const UserAvatar = ({ src }: Props) => {
   return (
     <Avatar>
       <AvatarImage src={src ? src : undefined} />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarFallback>X</AvatarFallback>
     </Avatar>
   );
 };

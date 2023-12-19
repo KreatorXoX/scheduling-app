@@ -15,7 +15,7 @@ type Props = { userImage?: string | null; username?: string | null };
 export const UserNavbar = ({ userImage, username }: Props) => {
   const currentPath = usePathname();
   return (
-    <nav className="w-full max-w-7xl  mx-auto fixed top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10">
+    <nav className="w-full max-w-7xl  mx-auto fixed top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10 px-5">
       <MobileSidebar userImage={userImage} username={username} />
       <div className="items-center justify-evenly  hidden md:flex">
         <Button size={"sm"} variant={"link"} asChild>
