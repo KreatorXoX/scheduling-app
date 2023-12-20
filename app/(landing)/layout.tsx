@@ -12,7 +12,8 @@ const LandingLayout = async ({ children }: Props) => {
   const session = await auth();
 
   if (session?.user) {
-    redirect("/my-appointments");
+    if (session.user.role === "admin") redirect("/dashboard");
+    else redirect("/my-appointments");
   }
   return (
     <div className="min-h-screen">

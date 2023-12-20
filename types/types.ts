@@ -4,6 +4,19 @@ export type DateTime = {
 };
 
 export type Appointment = {
-  id: number;
+  id: string;
   date: Date;
+  userId: string;
+  employeeId: string;
 };
+
+export interface IUser {
+  id: string;
+  name: string | null;
+  email: string | null;
+  image: string | null;
+  appointments?: Appointment[] | null;
+}
+export interface IEmployeeWithAppointments extends IUser {
+  employeeAppointments?: Appointment[] | null;
+}

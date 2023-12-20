@@ -10,7 +10,7 @@ const HomeLayout = async ({ children }: Props) => {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/api/auth/signin?callbackUrl=/my-appointments");
+    redirect("/api/auth/signin?callbackUrl=/");
   }
   return (
     <div className="min-h-screen relative">

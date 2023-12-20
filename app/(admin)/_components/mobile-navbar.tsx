@@ -13,11 +13,13 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import UserAvatar from "@/app/(user-platform)/_components/user-avatar";
+import { useCreateUserModal } from "@/hooks/useCreateUser";
 
 type Props = { userImage?: string | null; username?: string | null };
 
 const MobileSidebar = ({ userImage, username }: Props) => {
   const { onOpen, onClose, isOpen } = useMobileSidebar();
+  const openCreateUserModal = useCreateUserModal((state) => state.onOpen);
   const currentPath = usePathname();
 
   return (
@@ -45,21 +47,12 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             <ThemeToggle />
           </div>
           <Button
+            onClick={openCreateUserModal}
             size={"sm"}
             variant={"link"}
-            asChild
-            className="w-full justify-start"
+            className="w-full justify-center"
           >
-            <Link
-              href={"/employee-create"}
-              className={cn(
-                currentPath === "/employee-create"
-                  ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
-                  : ""
-              )}
-            >
-              Create Employee
-            </Link>
+            Create Employee
           </Button>
           <Button
             size={"sm"}

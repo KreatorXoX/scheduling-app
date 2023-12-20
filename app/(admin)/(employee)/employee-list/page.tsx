@@ -1,11 +1,61 @@
-import { auth } from "@/config/auth";
+import { User } from "next-auth/types";
+import EmployeeItem from "./_components/employee-item";
+import { db } from "@/lib/db";
 
+const dummyEmployees = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "jon@doe",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    email: "jane@doe",
+  },
+  {
+    id: 3,
+    name: "Jim Doe",
+    email: "jim@doe",
+  },
+  {
+    id: 4,
+    name: "Jill Doe",
+    email: "jill@doe",
+  },
+  {
+    id: 5,
+    name: "Jack Doe",
+    email: "jack@doe",
+  },
+];
 export default async function EmployeeListPage() {
-  const session = await auth();
+  const employees = await db.user.findMany({
+    where: { role: "employee" },
+
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      employeeAppointments: {
+        select: {
+          id: true,
+          employeeId: true,
+          userId: true,
+          date: true,
+        },
+      },
+    },
+  });
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-start pt-28 ">
-      EmployeeListPage
+    <main className="min-h-screen flex flex-col items-center justify-start pt-28 w-full px-5 max-w-7xl">
+      <div className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-5">
+        {employees.map((employee) => {
+          return <EmployeeItem emp={employee} key={employee.id} />;
+        })}
+      </div>
     </main>
   );
 }

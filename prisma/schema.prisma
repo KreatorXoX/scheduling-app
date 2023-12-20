@@ -47,8 +47,18 @@ model User {
   image          String?
   accounts       Account[]
   sessions       Session[]
+   appointments   Appointment[] @relation("UserToAppointment")
+  employeeAppointments Appointment[] @relation("EmployeeToAppointment")
 }
+model Appointment {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String @db.ObjectId
+  employeeId          String  @db.ObjectId
+  date        DateTime
+ user           User      @relation(fields: [userId], references: [id], name: "UserToAppointment", onDelete: Cascade)
+  employee       User      @relation(fields: [employeeId], references: [id], name: "EmployeeToAppointment", onDelete: Cascade)
 
+}
 model VerificationToken {
   identifier String   @id @map("_id")
   token      String   @unique
@@ -56,3 +66,4 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
