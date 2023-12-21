@@ -1,3 +1,4 @@
+import AdminWrapper from "../../_components/admin-wrapper";
 import EmployeeItem from "./_components/employee-item";
 import { db } from "@/lib/db";
 
@@ -21,13 +22,23 @@ export default async function EmployeeListPage() {
     },
   });
 
-  return (
-    <main className="min-h-screen flex flex-col items-center justify-start pt-28 w-full px-5 max-w-7xl">
-      <div className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-5">
-        {employees.map((employee) => {
-          return <EmployeeItem emp={employee} key={employee.id} />;
-        })}
+  let content;
+  if (employees.length > 0) {
+    content = (
+      <AdminWrapper>
+        {employees.map((employee) => (
+          <EmployeeItem key={employee.id} emp={employee} />
+        ))}
+      </AdminWrapper>
+    );
+  } else {
+    content = (
+      <div className="relative w-full h-[calc(100vh-20rem)]">
+        <h1 className="text-2xl text-center mt-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          No employees created yet.
+        </h1>
       </div>
-    </main>
-  );
+    );
+  }
+  return content;
 }

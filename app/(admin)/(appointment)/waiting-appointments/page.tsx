@@ -1,6 +1,7 @@
 import { auth } from "@/config/auth";
 import { db } from "@/lib/db";
-import { format } from "date-fns";
+import AppointmentItem from "../_components/appointment-item";
+import AdminWrapper from "../../_components/admin-wrapper";
 
 export default async function WaitingAppointments() {
   const session = await auth();
@@ -8,16 +9,27 @@ export default async function WaitingAppointments() {
     where: {
       isApproved: false,
     },
+    include: {
+      user: true,
+    },
   });
-
-  return (
-    <main className="min-h-screen flex flex-col items-center justify-start pt-28 ">
-      {appointments.map((appointment) => (
-        <div key={appointment.id}>
-          {format(appointment.date, "PPP")} at{" "}
-          {format(appointment.date, "kk:mm")}
-        </div>
-      ))}
-    </main>
-  );
+  let content;
+  if (appointments.length > 0) {
+    content = (
+      <AdminWrapper>
+        {appointments.map((appointment) => (
+          <AppointmentItem key={appointment.id} appointment={appointment} />
+        ))}
+      </AdminWrapper>
+    );
+  } else {
+    content = (
+      <div className="relative w-full h-[calc(100vh-20rem)]">
+        <h1 className="text-2xl text-center mt-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          No Waiting appointments
+        </h1>
+      </div>
+    );
+  }
+  return content;
 }

@@ -3,20 +3,22 @@ export type DateTime = {
   time?: Date;
 };
 
-export type Appointment = {
+export interface IAppointment {
   id: string;
   date: Date;
   userId: string;
   employeeId: string | null;
-};
+  user?: IUser | null;
+  employee?: IUser | null;
+}
 
 export interface IUser {
   id: string;
   name: string | null;
   email: string | null;
   image: string | null;
-  appointments?: Appointment[] | null;
+  appointments?: IAppointment[] | null;
 }
 export interface IEmployeeWithAppointments extends IUser {
-  employeeAppointments?: Appointment[] | null;
+  employeeAppointments?: IAppointment[] | null;
 }
