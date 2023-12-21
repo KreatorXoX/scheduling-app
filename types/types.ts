@@ -7,7 +7,7 @@ export type Appointment = {
   id: string;
   date: Date;
   userId: string;
-  employeeId: string;
+  employeeId: string | null;
 };
 
 export interface IUser {

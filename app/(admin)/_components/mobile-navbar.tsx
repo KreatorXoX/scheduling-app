@@ -78,14 +78,31 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             className="w-full justify-start"
           >
             <Link
-              href={"/appointment-list"}
+              href={"/waiting-appointments"}
               className={cn(
-                currentPath === "/appointment-list"
+                currentPath === "/waiting-appointments"
                   ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
                   : ""
               )}
             >
-              Appointment List
+              Waiting Appointments
+            </Link>
+          </Button>
+          <Button
+            size={"sm"}
+            variant={"link"}
+            asChild
+            className="w-full justify-start"
+          >
+            <Link
+              href={"/approved-appointments"}
+              className={cn(
+                currentPath === "/approved-appointments"
+                  ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
+                  : ""
+              )}
+            >
+              Approved Appointments
             </Link>
           </Button>
 

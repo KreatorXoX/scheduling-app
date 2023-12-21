@@ -1,43 +1,43 @@
-// "use server";
+"use server";
 
-// import { revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 
-// import { db } from "@/lib/db";
-// import { createSafeAction } from "@/lib/create-safe-action";
+import { db } from "@/lib/db";
+import { createSafeAction } from "@/lib/create-safe-action";
 
-// import { InputType, ReturnType } from "./input-types";
-// import { CreateAppointmentSchema } from "./schema";
+import { InputType, ReturnType } from "./input-types";
+import { CreateAppointmentSchema } from "./schema";
+import { auth } from "@/config/auth";
 
-// const handler = async (data: InputType): Promise<ReturnType> => {
-//   const { userId, orgId } = auth();
+const handler = async (data: InputType): Promise<ReturnType> => {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId)
+    return {
+      error: "Unauthorized",
+    };
 
-//   if (!userId || !orgId)
-//     return {
-//       error: "Unauthorized",
-//     };
+  const { time } = data;
 
-//   const { userdId, time } = data;
+  let appointment;
 
-//   let appointment;
+  try {
+    appointment = await db.appointment.create({
+      data: {
+        userId,
+        date: time,
+      },
+    });
+  } catch (error) {
+    return {
+      error: "Database Internal Error",
+    };
+  }
+  revalidatePath("/my-appointments");
+  return { data: appointment };
+};
 
-//   try {
-//     appointment = await db.appointment.create({
-//       data: {
-//         userId,
-//         time,
-//       },
-//     });
-
-//     revalidatePath("/my-appointments");
-//     return { data: appointment };
-//   } catch (error) {
-//     return {
-//       error: "Database Internal Error",
-//     };
-//   }
-// };
-
-// export const createAppointment = createSafeAction(
-//   CreateAppointmentSchema,
-//   handler
-// );
+export const createAppointment = createSafeAction(
+  CreateAppointmentSchema,
+  handler
+);

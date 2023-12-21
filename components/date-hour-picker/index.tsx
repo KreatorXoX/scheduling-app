@@ -4,18 +4,26 @@ import { add, format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 import { useDateTime } from "@/hooks/useDateTime";
-import { useAppointments } from "@/hooks/useAppointments";
 
 import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
 
 import HourPicker from "./hour-picker";
+import FormSubmitButton from "../form/form-submit";
+import { useAction } from "@/hooks/useActions";
+import { createAppointment } from "@/actions/create-appointment";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 type Props = {};
 
 const DatePicker = (props: Props) => {
-  const setAppointment = useAppointments((state) => state.setAppointment);
-  const appointments = useAppointments((state) => state.appointments);
+  const { execute } = useAction(createAppointment, {
+    onSuccess: (data) => {
+      toast.success("Appointment created");
+      redirect("/my-appointments");
+    },
+    onError: (err) => toast.error(err),
+  });
   const setDate = useDateTime((state) => state.setDate);
   const setTime = useDateTime((state) => state.setTime);
   const time = useDateTime((state) => state.time);
@@ -48,16 +56,22 @@ const DatePicker = (props: Props) => {
   );
 
   const disabledDays = [
-    new Date(2024, 0, 10),
-    new Date(2024, 0, 12),
-    new Date(2024, 0, 20),
+    // add days if all the employees are booked
     {
       before: new Date(),
     },
   ];
 
+  const onDateSelectHandler = (formData: FormData) => {
+    const date = formData.get("date") as string;
+    const time = new Date(date);
+    execute({ time });
+  };
   return (
-    <div className="space-y-8 max-w-xs mx-auto flex items-center flex-col mt-10">
+    <form
+      className="space-y-8 max-w-xs mx-auto flex items-center flex-col mt-10"
+      action={onDateSelectHandler}
+    >
       <Calendar
         fixedWeeks
         weekStartsOn={1}
@@ -74,20 +88,24 @@ const DatePicker = (props: Props) => {
       {date && (
         <HourPicker
           hours={getHours(9, 17)}
-          disabledHours={appointments?.map((app) => app.date.getTime())}
+          //  disabledHours={appointments?.map((app) => app.date.getTime())}
         />
       )}
+      <input
+        type="datetime"
+        name="date"
+        id="date"
+        value={time?.toISOString()}
+        className="hidden"
+      />
       {time && (
-        <Button
-          size={"sm"}
+        <FormSubmitButton
+          innerText="Book now"
+          customClasses="w-full"
           variant={"primary"}
-          className="w-full"
-          onClick={() => setAppointment(time)}
-        >
-          Submit
-        </Button>
+        />
       )}
-    </div>
+    </form>
   );
 };
 

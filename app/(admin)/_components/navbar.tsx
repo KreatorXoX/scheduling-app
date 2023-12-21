@@ -17,12 +17,12 @@ export const AdminNavbar = ({ userImage, username }: Props) => {
   return (
     <nav className="w-full max-w-7xl  mx-auto fixed top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10 px-5">
       <MobileSidebar userImage={userImage} username={username} />
-      <div className="items-center justify-evenly hidden md:flex">
+      <div className="w-full items-center justify-between gap-2 hidden md:flex">
         <Button
           onClick={openCreateUserModal}
           size={"sm"}
           variant={"link"}
-          className="w-full justify-center"
+          className=" justify-center"
         >
           Create Employee
         </Button>
@@ -30,7 +30,7 @@ export const AdminNavbar = ({ userImage, username }: Props) => {
           size={"sm"}
           variant={"link"}
           asChild
-          className="w-full justify-center"
+          className=" justify-center"
         >
           <Link
             href={"/employee-list"}
@@ -47,17 +47,34 @@ export const AdminNavbar = ({ userImage, username }: Props) => {
           size={"sm"}
           variant={"link"}
           asChild
-          className="w-full justify-center"
+          className=" justify-center"
         >
           <Link
-            href={"/appointment-list"}
+            href={"/waiting-appointments"}
             className={cn(
-              currentPath === "/appointment-list"
+              currentPath === "/waiting-appointments"
                 ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
                 : ""
             )}
           >
-            Appointment List
+            Waiting Appointments
+          </Link>
+        </Button>
+        <Button
+          size={"sm"}
+          variant={"link"}
+          asChild
+          className=" justify-center"
+        >
+          <Link
+            href={"/approved-appointments"}
+            className={cn(
+              currentPath === "/approved-appointments"
+                ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
+                : ""
+            )}
+          >
+            Approved Appointments
           </Link>
         </Button>
 

@@ -53,10 +53,11 @@ model User {
 model Appointment {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   userId           String @db.ObjectId
-  employeeId          String  @db.ObjectId
+  employeeId          String?  @db.ObjectId
+  isApproved Boolean @default(false)
   date        DateTime
  user           User      @relation(fields: [userId], references: [id], name: "UserToAppointment", onDelete: Cascade)
-  employee       User      @relation(fields: [employeeId], references: [id], name: "EmployeeToAppointment", onDelete: Cascade)
+  employee       User?      @relation(fields: [employeeId], references: [id], name: "EmployeeToAppointment", onDelete: Cascade)
 
 }
 model VerificationToken {

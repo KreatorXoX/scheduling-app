@@ -1,34 +1,6 @@
-import { User } from "next-auth/types";
 import EmployeeItem from "./_components/employee-item";
 import { db } from "@/lib/db";
 
-const dummyEmployees = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "jon@doe",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    email: "jane@doe",
-  },
-  {
-    id: 3,
-    name: "Jim Doe",
-    email: "jim@doe",
-  },
-  {
-    id: 4,
-    name: "Jill Doe",
-    email: "jill@doe",
-  },
-  {
-    id: 5,
-    name: "Jack Doe",
-    email: "jack@doe",
-  },
-];
 export default async function EmployeeListPage() {
   const employees = await db.user.findMany({
     where: { role: "employee" },

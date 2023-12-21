@@ -21,6 +21,7 @@ const HourPicker = ({ hours, disabledHours }: Props) => {
       {hours?.map((hour, index) => {
         return (
           <Button
+            type="button"
             variant={"hour"}
             size={"hour"}
             key={`${index}-hour`}
