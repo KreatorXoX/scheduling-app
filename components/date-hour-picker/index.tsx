@@ -12,15 +12,16 @@ import FormSubmitButton from "../form/form-submit";
 import { useAction } from "@/hooks/useActions";
 import { createAppointment } from "@/actions/create-appointment";
 import toast from "react-hot-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-type Props = {};
+type Props = { disabledDates: Date[] };
 
-const DatePicker = (props: Props) => {
+const DatePicker = ({ disabledDates }: Props) => {
   const router = useRouter();
   const { execute } = useAction(createAppointment, {
     onSuccess: (data) => {
       toast.success("Appointment created");
+      router.refresh();
       router.push("/my-appointments");
     },
     onError: (err) => toast.error(err),
@@ -57,7 +58,6 @@ const DatePicker = (props: Props) => {
   );
 
   const disabledDays = [
-    // add days if all the employees are booked
     {
       before: new Date(),
     },
@@ -89,7 +89,7 @@ const DatePicker = (props: Props) => {
       {date && (
         <HourPicker
           hours={getHours(9, 17)}
-          //  disabledHours={appointments?.map((app) => app.date.getTime())}
+          disabledHours={disabledDates.map((date) => date.getTime())}
         />
       )}
       <input
