@@ -12,15 +12,16 @@ import FormSubmitButton from "../form/form-submit";
 import { useAction } from "@/hooks/useActions";
 import { createAppointment } from "@/actions/create-appointment";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 type Props = {};
 
 const DatePicker = (props: Props) => {
+  const router = useRouter();
   const { execute } = useAction(createAppointment, {
     onSuccess: (data) => {
       toast.success("Appointment created");
-      redirect("/my-appointments");
+      router.push("/my-appointments");
     },
     onError: (err) => toast.error(err),
   });

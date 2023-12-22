@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -14,26 +15,31 @@ import FormRadioInput from "../form/form-radio-input";
 import { useAction } from "@/hooks/useActions";
 import { createUser } from "@/actions/create-user";
 import toast from "react-hot-toast";
+import { on } from "events";
 
 type Props = {};
 
 const CreateUserModal = (props: Props) => {
-  const { execute, fieldErrors } = useAction(createUser, {
-    onSuccess: (data) => toast.success(`User ${data.name} created`),
-    onError: (error) => toast.error(error),
-  });
+  const router = useRouter();
 
   const [role, setRole] = useState<string>("user");
   const isOpen = useCreateUserModal((state) => state.isOpen);
   const onClose = useCreateUserModal((state) => state.onClose);
+
+  const { execute, fieldErrors } = useAction(createUser, {
+    onSuccess: (data) => {
+      toast.success(`User ${data.name} created`);
+      router.refresh();
+      onClose();
+    },
+    onError: (error) => toast.error(error),
+  });
 
   const onCreateUserHandler = (formData: FormData) => {
     // Access values from formData
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
-    // TODO : Create new user
 
     execute({ name, email, password, role });
   };

@@ -5,7 +5,8 @@ import AppointmentItem from "../_components/appointment-item";
 
 export default async function ApprovedAppointments() {
   const session = await auth();
-  const appointments = await db.appointment.findMany({
+
+  const appointmentsPromise = db.appointment.findMany({
     where: {
       isApproved: true,
     },
@@ -14,12 +15,29 @@ export default async function ApprovedAppointments() {
       employee: true,
     },
   });
+  const employeesPromise = db.user.findMany({
+    where: {
+      role: "employee",
+    },
+    include: {
+      employeeAppointments: true,
+    },
+  });
+
+  const [appointments, employees] = await Promise.all([
+    appointmentsPromise,
+    employeesPromise,
+  ]);
   let content;
   if (appointments.length > 0) {
     content = (
       <AdminWrapper>
         {appointments.map((appointment) => (
-          <AppointmentItem key={appointment.id} appointment={appointment} />
+          <AppointmentItem
+            key={appointment.id}
+            appointment={appointment}
+            employees={employees}
+          />
         ))}
       </AdminWrapper>
     );
