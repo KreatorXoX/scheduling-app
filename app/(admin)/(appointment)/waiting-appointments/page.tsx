@@ -2,7 +2,7 @@ import { auth } from "@/config/auth";
 import { db } from "@/lib/db";
 import AppointmentItem from "../_components/appointment-item";
 import AdminWrapper from "../../_components/admin-wrapper";
-
+import { Role } from "@prisma/client";
 export default async function WaitingAppointments() {
   const session = await auth();
   const appointmentsPromise = db.appointment.findMany({
@@ -15,7 +15,7 @@ export default async function WaitingAppointments() {
   });
   const employeesPromise = db.user.findMany({
     where: {
-      role: "employee",
+      role: Role.EMPLOYEE,
     },
     include: {
       employeeAppointments: true,

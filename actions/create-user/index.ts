@@ -9,12 +9,13 @@ import { InputType, ReturnType } from "./input-types";
 import { CreateUserSchema } from "./schema";
 import bcrypt from "bcrypt";
 import { auth } from "@/config/auth";
+import { Role } from "@prisma/client";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
 
   const userId = session?.user?.id;
-  const isAdmin = session?.user.role === "admin";
+  const isAdmin = session?.user.role === Role.ADMIN;
 
   if (!userId && !isAdmin)
     return {

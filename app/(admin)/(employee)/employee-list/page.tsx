@@ -1,16 +1,17 @@
 import AdminWrapper from "../../_components/admin-wrapper";
 import EmployeeItem from "./_components/employee-item";
 import { db } from "@/lib/db";
-
+import { Role } from "@prisma/client";
 export default async function EmployeeListPage() {
   const employees = await db.user.findMany({
-    where: { role: "employee" },
+    where: { role: Role.EMPLOYEE },
 
     select: {
       id: true,
       name: true,
       email: true,
       image: true,
+      role: true,
       employeeAppointments: {
         select: {
           id: true,

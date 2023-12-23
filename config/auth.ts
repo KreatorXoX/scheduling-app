@@ -4,9 +4,11 @@ import CredentialProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import { db } from "@/lib/db";
+import { Role } from "@prisma/client";
 
 export const { handlers, auth, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
+  debug: true,
   providers: [
     GoogleProvider({
       profile(profile) {
@@ -14,7 +16,7 @@ export const { handlers, auth, signOut } = NextAuth({
           email: profile.email,
           image: profile.picture,
           id: profile.sub,
-          role: "Google User",
+          role: Role.USER,
           name: profile.name,
           emailVerified: profile.email_verified,
         };
@@ -73,7 +75,7 @@ export const { handlers, auth, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role || "user";
+        token.role = user.role || Role.USER;
       }
       return token;
     },

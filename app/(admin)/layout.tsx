@@ -4,7 +4,7 @@ import { auth } from "@/config/auth";
 
 import { AdminNavbar } from "./_components/navbar";
 import ModalProvider from "@/providers/modal-provider";
-
+import { Role } from "@prisma/client";
 type Props = {
   children: React.ReactNode;
 };
@@ -12,7 +12,7 @@ type Props = {
 const AdminLayout = async ({ children }: Props) => {
   const session = await auth();
 
-  if (session?.user.role !== "admin") {
+  if (session?.user.role !== Role.ADMIN) {
     redirect("/api/auth/signin");
   }
   return (

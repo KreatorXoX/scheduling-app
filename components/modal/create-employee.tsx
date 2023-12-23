@@ -15,14 +15,14 @@ import FormRadioInput from "../form/form-radio-input";
 import { useAction } from "@/hooks/useActions";
 import { createUser } from "@/actions/create-user";
 import toast from "react-hot-toast";
-import { on } from "events";
+import { Role } from "@prisma/client";
 
 type Props = {};
 
 const CreateUserModal = (props: Props) => {
   const router = useRouter();
 
-  const [role, setRole] = useState<string>("user");
+  const [role, setRole] = useState<Role>(Role.USER);
   const isOpen = useCreateUserModal((state) => state.isOpen);
   const onClose = useCreateUserModal((state) => state.onClose);
 
@@ -63,8 +63,8 @@ const CreateUserModal = (props: Props) => {
               }}
               value={role}
               groupItems={[
-                { id: "emp", value: "employee" },
-                { id: "user", value: "user" },
+                { id: "emp", value: Role.EMPLOYEE },
+                { id: "user", value: Role.USER },
               ]}
               label="Role"
             />

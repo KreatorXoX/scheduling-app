@@ -38,28 +38,29 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  email          String?   @unique
-  role           String @default("User")
-  hashedPassword String?
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-   appointments   Appointment[] @relation("UserToAppointment")
+  id                   String        @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String?
+  email                String?       @unique
+  role                 Role          @default(USER)
+  hashedPassword       String?
+  emailVerified        DateTime?
+  image                String?
+  accounts             Account[]
+  sessions             Session[]
+  appointments         Appointment[] @relation("UserToAppointment")
   employeeAppointments Appointment[] @relation("EmployeeToAppointment")
 }
-model Appointment {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId           String @db.ObjectId
-  employeeId          String?  @db.ObjectId
-  isApproved Boolean @default(false)
-  date        DateTime
- user           User      @relation(fields: [userId], references: [id], name: "UserToAppointment", onDelete: Cascade)
-  employee       User?      @relation(fields: [employeeId], references: [id], name: "EmployeeToAppointment", onDelete: Cascade)
 
+model Appointment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  employeeId String?  @db.ObjectId
+  isApproved Boolean  @default(false)
+  date       DateTime
+  user       User     @relation(fields: [userId], references: [id], name: "UserToAppointment", onDelete: Cascade)
+  employee   User?    @relation(fields: [employeeId], references: [id], name: "EmployeeToAppointment", onDelete: Cascade)
 }
+
 model VerificationToken {
   identifier String   @id @map("_id")
   token      String   @unique
@@ -68,3 +69,8 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+enum Role {
+  USER
+  ADMIN
+  EMPLOYEE
+}

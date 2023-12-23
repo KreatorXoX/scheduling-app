@@ -3,11 +3,11 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import FormErrors from "./form-errors";
-
+import { Role } from "@prisma/client";
 type Props = {
   groupItems?: { id: string; value: string }[];
   label: string;
-  onChange: (value: string) => void;
+  onChange: (value: Role) => void;
   value?: string;
   errors?: Record<string, string[] | undefined>;
 };
@@ -29,7 +29,7 @@ const FormRadioInput = ({
         errors ? "border-rose-500/40" : ""
       )}
       aria-describedby={`error-${label}`}
-      onValueChange={(e) => onChange(e)}
+      onValueChange={(e) => onChange(e as Role)}
     >
       <span>{label}</span>
       <div className="flex justify-center items-center gap-4">

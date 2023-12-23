@@ -1,8 +1,4 @@
-export type DateTime = {
-  date?: Date;
-  time?: Date;
-};
-
+import { Role } from "@prisma/client";
 export interface IAppointment {
   id: string;
   date: Date;
@@ -17,6 +13,7 @@ export interface IUser {
   name: string | null;
   email: string | null;
   image: string | null;
+  role: Role;
   appointments?: IAppointment[] | null;
 }
 export interface IEmployeeWithAppointments extends IUser {

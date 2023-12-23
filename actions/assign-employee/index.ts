@@ -8,11 +8,12 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { InputType, ReturnType } from "./input-types";
 import { AssignEmployeeSchema } from "./schema";
 import { auth } from "@/config/auth";
+import { Role } from "@prisma/client";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId || session?.user.role !== "admin")
+  if (!userId || session?.user.role !== Role.ADMIN)
     return {
       error: "Unauthorized",
     };

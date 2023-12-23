@@ -1,14 +1,14 @@
 // auth.ts
 import NextAuth, { type DefaultSession, User } from "next-auth";
-
+import { Role } from "@prisma/client";
 declare module "next-auth" {
   interface User {
-    role?: string;
+    role?: Role;
   }
   interface Session {
     user: {
       id: string;
-      role: string;
+      role: Role;
     } & DefaultSession["user"];
   }
 }
@@ -21,6 +21,6 @@ declare module "@auth/core/jwt" {
   interface JWT {
     /** OpenID ID Token */
     id: string;
-    role: string;
+    role: Role;
   }
 }

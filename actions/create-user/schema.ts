@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { Role } from "@prisma/client";
 export const CreateUserSchema = z.object({
   name: z
     .string({
@@ -19,10 +19,5 @@ export const CreateUserSchema = z.object({
       invalid_type_error: "Please enter a valid string",
     })
     .min(3, { message: "Password must be greater than or equal to 3" }),
-  role: z
-    .string({
-      required_error: "Role is required",
-      invalid_type_error: "Please enter a valid string",
-    })
-    .min(1),
+  role: z.nativeEnum(Role),
 });
