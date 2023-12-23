@@ -1,8 +1,10 @@
 import { z } from "zod";
 
-import { CreateAppointmentSchema } from "./schema";
-import { ActionState } from "@/lib/create-safe-action";
 import { Appointment } from "@prisma/client";
+
+import { ActionState } from "@/lib/create-safe-action";
+
+import { CreateAppointmentSchema } from "./schema";
 
 export type InputType = z.infer<typeof CreateAppointmentSchema>;
 export type ReturnType = ActionState<InputType, Appointment>;

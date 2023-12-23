@@ -1,19 +1,25 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import { useCreateUserModal } from "@/hooks/useCreateUser";
+
+import { cn } from "@/lib/utils";
+
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 
 import UserSetting from "@/app/(user-platform)/_components/user-setting";
+
 import MobileSidebar from "./mobile-navbar";
-import { cn } from "@/lib/utils";
-import { useCreateUserModal } from "@/hooks/useCreateUser";
 
 type Props = { userImage?: string | null; username?: string | null };
 
 export const AdminNavbar = ({ userImage, username }: Props) => {
-  const currentPath = usePathname();
   const openCreateUserModal = useCreateUserModal((state) => state.onOpen);
+
+  const currentPath = usePathname();
   return (
     <nav className="w-full max-w-7xl  mx-auto fixed top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10 px-5">
       <MobileSidebar userImage={userImage} username={username} />

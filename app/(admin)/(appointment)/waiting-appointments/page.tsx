@@ -4,7 +4,6 @@ import AppointmentItem from "../_components/appointment-item";
 import AdminWrapper from "../../_components/admin-wrapper";
 import { Role } from "@prisma/client";
 export default async function WaitingAppointments() {
-  const session = await auth();
   const appointmentsPromise = db.appointment.findMany({
     where: {
       isApproved: false,

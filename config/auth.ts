@@ -8,7 +8,6 @@ import { Role } from "@prisma/client";
 
 export const { handlers, auth, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
-  debug: true,
   providers: [
     GoogleProvider({
       profile(profile) {
@@ -57,7 +56,7 @@ export const { handlers, auth, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user, profile }) {
+    async signIn({ user }) {
       if (user) {
         return true;
       } else {

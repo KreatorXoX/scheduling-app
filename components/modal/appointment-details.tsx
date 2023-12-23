@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { useAppointmentModal } from "@/hooks/useAppointmentModal";
@@ -18,6 +19,7 @@ const AppointmentDetailsModal = (props: Props) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogClose></DialogClose>
       <DialogContent className=" p-4">
         <DialogHeader className="w-full text-neutral-700">
           <DialogTitle className="text-2xl dark:text-white text-neutral-700">

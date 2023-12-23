@@ -1,9 +1,10 @@
 "use client";
 
-import { IAppointment, IEmployeeWithAppointments } from "@/types/types";
 import { format } from "date-fns";
-import React from "react";
+
 import { useAppointmentModal } from "@/hooks/useAppointmentModal";
+
+import { IAppointment, IEmployeeWithAppointments } from "@/types/types";
 
 type Props = {
   appointment: IAppointment;
@@ -12,6 +13,7 @@ type Props = {
 
 const AppointmentItem = ({ appointment, employees }: Props) => {
   const onOpen = useAppointmentModal((state) => state.onOpen);
+
   const availableEmployees = employees?.filter((emp) => {
     const empAppointmentsDate = emp.employeeAppointments?.map((app) =>
       app.date.getTime()

@@ -1,9 +1,12 @@
+import { getUsers } from "@/lib/get-users";
 import AdminWrapper from "../../_components/admin-wrapper";
 import EmployeeItem from "./_components/employee-item";
 import { db } from "@/lib/db";
-import { Role } from "@prisma/client";
+import { Role, Prisma } from "@prisma/client";
+import { IEmployeeWithAppointments } from "@/types/types";
+
 export default async function EmployeeListPage() {
-  const employees = await db.user.findMany({
+  const employeesQuery: Prisma.UserFindManyArgs = {
     where: { role: Role.EMPLOYEE },
 
     select: {
@@ -18,13 +21,17 @@ export default async function EmployeeListPage() {
           employeeId: true,
           userId: true,
           date: true,
+          isApproved: true,
         },
       },
     },
-  });
+  };
+  const employees = (await getUsers(employeesQuery)) as
+    | IEmployeeWithAppointments[]
+    | undefined;
 
   let content;
-  if (employees.length > 0) {
+  if (employees && employees.length > 0) {
     content = (
       <AdminWrapper>
         {employees.map((employee) => (

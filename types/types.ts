@@ -1,4 +1,5 @@
 import { Role } from "@prisma/client";
+
 export interface IAppointment {
   id: string;
   date: Date;
@@ -6,6 +7,7 @@ export interface IAppointment {
   employeeId: string | null;
   user?: IUser | null;
   employee?: IUser | null;
+  isApproved: boolean;
 }
 
 export interface IUser {
@@ -18,4 +20,8 @@ export interface IUser {
 }
 export interface IEmployeeWithAppointments extends IUser {
   employeeAppointments?: IAppointment[] | null;
+}
+
+export interface IEmployeeAppointment {
+  employeeAppointments?: IAppointment[] | [];
 }

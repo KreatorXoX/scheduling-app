@@ -10,16 +10,16 @@ import CustomTooltip from "../custom-tooltip";
 import { Info } from "lucide-react";
 import { useAction } from "@/hooks/useActions";
 import { assignAppointment } from "@/actions/assign-employee";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-type Props = {};
-
-const AppointmentContent = (props: Props) => {
+const AppointmentContent = () => {
+  const router = useRouter();
   const { execute } = useAction(assignAppointment, {
     onSuccess: () => {
       setIsEditing(false);
       toast.success("Employee assigned successfully");
+      router.refresh();
     },
     onError: (err) => toast.error(err),
   });

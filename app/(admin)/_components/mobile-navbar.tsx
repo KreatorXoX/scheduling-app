@@ -1,10 +1,12 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 
 import { signOutUser } from "@/actions/auth";
 
+import { useCreateUserModal } from "@/hooks/useCreateUser";
 import { useMobileSidebar } from "@/hooks/useMobileSidebar";
 
 import { cn } from "@/lib/utils";
@@ -12,14 +14,16 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+
 import UserAvatar from "@/app/(user-platform)/_components/user-avatar";
-import { useCreateUserModal } from "@/hooks/useCreateUser";
 
 type Props = { userImage?: string | null; username?: string | null };
 
 const MobileSidebar = ({ userImage, username }: Props) => {
-  const { onOpen, onClose, isOpen } = useMobileSidebar();
   const openCreateUserModal = useCreateUserModal((state) => state.onOpen);
+
+  const { onOpen, onClose, isOpen } = useMobileSidebar();
+
   const currentPath = usePathname();
 
   return (
@@ -55,6 +59,7 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             Create Employee
           </Button>
           <Button
+            onClick={onClose}
             size={"sm"}
             variant={"link"}
             asChild
@@ -72,6 +77,7 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             </Link>
           </Button>
           <Button
+            onClick={onClose}
             size={"sm"}
             variant={"link"}
             asChild
@@ -89,6 +95,7 @@ const MobileSidebar = ({ userImage, username }: Props) => {
             </Link>
           </Button>
           <Button
+            onClick={onClose}
             size={"sm"}
             variant={"link"}
             asChild

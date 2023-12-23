@@ -2,13 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 
+import { Role } from "@prisma/client";
+
+import { auth } from "@/config/auth";
+
 import { db } from "@/lib/db";
 import { createSafeAction } from "@/lib/create-safe-action";
 
 import { InputType, ReturnType } from "./input-types";
 import { AssignEmployeeSchema } from "./schema";
-import { auth } from "@/config/auth";
-import { Role } from "@prisma/client";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
@@ -37,7 +39,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       error: "Database Internal Error",
     };
   }
-  revalidatePath("/my-appointments");
+  revalidatePath("/waiting-appointments");
   return { data: appointment };
 };
 

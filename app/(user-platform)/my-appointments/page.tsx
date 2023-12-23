@@ -1,16 +1,32 @@
 import Link from "next/link";
 import { format } from "date-fns";
 
+import { Prisma } from "@prisma/client";
+
+import { IAppointment } from "@/types/types";
+
 import { auth } from "@/config/auth";
 
-import { getAppointmentsByUser } from "@/lib/get-appointments-by-user";
+import { getAppointments } from "@/lib/get-appointments";
 
 import { Button } from "@/components/ui/button";
 
 const MyAppointmentsPage = async () => {
   const session = await auth();
+
   const userId = session!.user.id;
-  const appointments = await getAppointmentsByUser(userId);
+
+  const query: Prisma.AppointmentFindManyArgs = {
+    where: {
+      ...(session?.user.role === "USER"
+        ? { userId: userId }
+        : { employeeId: userId }),
+    },
+  };
+
+  const appointments = (await getAppointments(query)) as
+    | IAppointment[]
+    | undefined;
 
   return (
     <div className="w-full min-h-screen relative flex flex-col items-center pt-28 space-y-10">
