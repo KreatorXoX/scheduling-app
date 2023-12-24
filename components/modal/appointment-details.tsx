@@ -1,5 +1,7 @@
 "use client";
 
+import { useAppointmentModal } from "@/hooks/useAppointmentModal";
+
 import {
   Dialog,
   DialogContent,
@@ -8,7 +10,6 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
-import { useAppointmentModal } from "@/hooks/useAppointmentModal";
 import AppointmentContent from "./appointment-content";
 
 type Props = {};

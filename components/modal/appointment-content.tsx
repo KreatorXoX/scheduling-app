@@ -1,29 +1,35 @@
 "use client";
 
-import { useAppointmentModal } from "@/hooks/useAppointmentModal";
-
-import SelectEmployee from "../select-employee";
 import { useState } from "react";
-import FormSubmitButton from "../form/form-submit";
-import { Button } from "../ui/button";
-import CustomTooltip from "../custom-tooltip";
+import { useRouter, usePathname } from "next/navigation";
 import { Info } from "lucide-react";
-import { useAction } from "@/hooks/useActions";
-import { assignAppointment } from "@/actions/assign-employee";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+
+import { assignAppointment } from "@/actions/assign-employee";
+
+import { useAppointmentModal } from "@/hooks/useAppointmentModal";
+import { useAction } from "@/hooks/useActions";
+
+import SelectEmployee from "@/components/select-employee";
+import CustomTooltip from "@/components/custom-tooltip";
+import { Button } from "@/components/ui/button";
+import FormSubmitButton from "@/components/form/form-submit";
 
 const AppointmentContent = () => {
   const router = useRouter();
+  const path = usePathname();
+
   const { execute } = useAction(assignAppointment, {
     onSuccess: () => {
       setIsEditing(false);
       toast.success("Employee assigned successfully");
-      router.refresh();
+      router.push(path);
     },
     onError: (err) => toast.error(err),
   });
+
   const appointment = useAppointmentModal((state) => state.appointment);
+
   const availableEmployees = useAppointmentModal(
     (state) => state.availableEmployees
   );

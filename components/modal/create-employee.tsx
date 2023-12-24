@@ -1,28 +1,32 @@
 "use client";
+
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
+import { Role } from "@prisma/client";
+
+import { createUser } from "@/actions/create-user";
+
+import { useAction } from "@/hooks/useActions";
+import { useCreateUserModal } from "@/hooks/useCreateUser";
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-import { FormInput } from "../form/form-input";
-import FormSubmitButton from "../form/form-submit";
-import { useCreateUserModal } from "@/hooks/useCreateUser";
-import FormRadioInput from "../form/form-radio-input";
-import { useAction } from "@/hooks/useActions";
-import { createUser } from "@/actions/create-user";
-import toast from "react-hot-toast";
-import { Role } from "@prisma/client";
+import { FormInput } from "@/components/form/form-input";
+import FormSubmitButton from "@/components/form/form-submit";
+import FormRadioInput from "@/components/form/form-radio-input";
 
 type Props = {};
 
 const CreateUserModal = (props: Props) => {
   const router = useRouter();
 
-  const [role, setRole] = useState<Role>(Role.USER);
+  const [role, setRole] = useState<Role>(Role.EMPLOYEE);
   const isOpen = useCreateUserModal((state) => state.isOpen);
   const onClose = useCreateUserModal((state) => state.onClose);
 

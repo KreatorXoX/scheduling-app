@@ -1,4 +1,5 @@
 "use client";
+
 import { CreditCard, LogOutIcon, Settings, User } from "lucide-react";
 
 import { signOutUser } from "@/actions/auth";

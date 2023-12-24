@@ -40,7 +40,7 @@ const MyAppointmentsPage = async () => {
         {appointments?.map((app) => (
           <div
             className="bg-gray-200 dark:bg-gray-700 py-2 rounded-lg
-            flex flex-col gap-2 items-center justify-center
+            flex flex-col gap-2 items-center justify-center px-4 text-sm text-center
             "
             key={app.id}
           >

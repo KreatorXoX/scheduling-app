@@ -1,11 +1,11 @@
+"use client";
+
 import {
   TooltipProvider,
   TooltipContent,
   TooltipTrigger,
   Tooltip,
 } from "./ui/tooltip";
-
-import React from "react";
 
 type Props = {
   children: React.ReactNode;

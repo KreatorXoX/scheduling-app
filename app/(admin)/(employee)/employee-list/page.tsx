@@ -1,9 +1,11 @@
-import { getUsers } from "@/lib/get-users";
-import AdminWrapper from "../../_components/admin-wrapper";
-import EmployeeItem from "./_components/employee-item";
-import { db } from "@/lib/db";
 import { Role, Prisma } from "@prisma/client";
+
 import { IEmployeeWithAppointments } from "@/types/types";
+
+import { getUsers } from "@/lib/get-users";
+
+import EmployeeItem from "./_components/employee-item";
+import AdminWrapper from "../../_components/admin-wrapper";
 
 export default async function EmployeeListPage() {
   const employeesQuery: Prisma.UserFindManyArgs = {

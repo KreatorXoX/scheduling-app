@@ -1,10 +1,13 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
-import { db } from "@/lib/db";
+
+import { PrismaAdapter } from "@auth/prisma-adapter";
+
 import { Role } from "@prisma/client";
+
+import { db } from "@/lib/db";
 
 export const { handlers, auth, signOut } = NextAuth({
   adapter: PrismaAdapter(db),

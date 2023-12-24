@@ -1,8 +1,10 @@
 "use client";
+
 import { useRouter } from "next/navigation";
-import EmployeeAvatar from "./employee-avatar";
 
 import { IEmployeeWithAppointments } from "@/types/types";
+
+import EmployeeAvatar from "./employee-avatar";
 import EmployeeOptions from "./employee-options";
 
 type Props = { emp: IEmployeeWithAppointments };

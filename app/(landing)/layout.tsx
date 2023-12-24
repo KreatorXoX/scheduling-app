@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
 
+import { Role } from "@prisma/client";
+
 import { auth } from "@/config/auth";
 
 import { Navbar } from "./_components/navbar";
-import { Role } from "@prisma/client";
+
 type Props = {
   children: React.ReactNode;
 };
@@ -16,7 +18,7 @@ const LandingLayout = async ({ children }: Props) => {
     else redirect("/my-appointments");
   }
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-red-500">
       <Navbar />
       <main className="flex justify-center items-start h-full w-full">
         {children}

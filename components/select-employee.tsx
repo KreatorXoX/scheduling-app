@@ -1,4 +1,9 @@
 "use client";
+
+import React, { Dispatch, SetStateAction } from "react";
+
+import { IEmployeeWithAppointments } from "@/types/types";
+
 import {
   Select,
   SelectContent,
@@ -6,9 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { IEmployeeWithAppointments } from "@/types/types";
-
-import React, { Dispatch, SetStateAction } from "react";
 
 type Props = {
   employess?: IEmployeeWithAppointments[];
@@ -22,11 +24,17 @@ const SelectEmployee = ({ employess, onClick }: Props) => {
         <SelectValue placeholder="Employees" />
       </SelectTrigger>
       <SelectContent>
-        {employess?.map((emp) => (
-          <SelectItem key={emp.id} value={`${emp.id}|${emp.name}`}>
-            {emp.name}
+        {employess && employess.length > 0 ? (
+          employess.map((emp) => (
+            <SelectItem key={emp.id} value={`${emp.id}|${emp.name}`}>
+              {emp.name}
+            </SelectItem>
+          ))
+        ) : (
+          <SelectItem disabled value="no-emp">
+            No employees Available
           </SelectItem>
-        ))}
+        )}
       </SelectContent>
     </Select>
   );

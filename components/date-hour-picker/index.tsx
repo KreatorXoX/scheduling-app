@@ -1,27 +1,28 @@
 "use client";
+
+import { useRouter } from "next/navigation";
 import { add, format } from "date-fns";
+import toast from "react-hot-toast";
+
+import { createAppointment } from "@/actions/create-appointment";
+
+import { useDateTime } from "@/hooks/useDateTime";
+import { useAction } from "@/hooks/useActions";
 
 import { cn } from "@/lib/utils";
 
-import { useDateTime } from "@/hooks/useDateTime";
-
 import { Calendar } from "@/components/ui/calendar";
+import FormSubmitButton from "@/components/form/form-submit";
 
 import HourPicker from "./hour-picker";
-import FormSubmitButton from "../form/form-submit";
-import { useAction } from "@/hooks/useActions";
-import { createAppointment } from "@/actions/create-appointment";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 type Props = { disabledDates: Date[] };
 
 const DatePicker = ({ disabledDates }: Props) => {
   const router = useRouter();
   const { execute } = useAction(createAppointment, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Appointment created");
-      router.refresh();
       router.push("/my-appointments");
     },
     onError: (err) => toast.error(err),

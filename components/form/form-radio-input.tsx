@@ -1,9 +1,14 @@
 "use client";
+
+import { Role } from "@prisma/client";
+
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import { cn } from "@/lib/utils";
+
 import FormErrors from "./form-errors";
-import { Role } from "@prisma/client";
+
 type Props = {
   groupItems?: { id: string; value: string }[];
   label: string;

@@ -1,32 +1,44 @@
-import { auth } from "@/config/auth";
-import { db } from "@/lib/db";
+import { Role, Prisma } from "@prisma/client";
+
+import { IAppointment, IEmployeeWithAppointments } from "@/types/types";
+
+import { getUsers } from "@/lib/get-users";
+import { getAppointments } from "@/lib/get-appointments";
+
 import AppointmentItem from "../_components/appointment-item";
 import AdminWrapper from "../../_components/admin-wrapper";
-import { Role } from "@prisma/client";
+
 export default async function WaitingAppointments() {
-  const appointmentsPromise = db.appointment.findMany({
-    where: {
-      isApproved: false,
-    },
-    include: {
-      user: true,
-    },
-  });
-  const employeesPromise = db.user.findMany({
+  const employeesQuery: Prisma.UserFindManyArgs = {
     where: {
       role: Role.EMPLOYEE,
     },
     include: {
       employeeAppointments: true,
     },
-  });
+  };
+
+  const appointmentsQuery: Prisma.AppointmentFindManyArgs = {
+    where: {
+      isApproved: false,
+    },
+    include: {
+      user: true,
+    },
+  };
+  const appointmentsPromise = getAppointments(appointmentsQuery) as Promise<
+    IAppointment[] | undefined
+  >;
+  const employeesPromise = getUsers(employeesQuery) as Promise<
+    IEmployeeWithAppointments[] | undefined
+  >;
 
   const [appointments, employees] = await Promise.all([
     appointmentsPromise,
     employeesPromise,
   ]);
   let content;
-  if (appointments.length > 0) {
+  if (appointments && appointments.length > 0) {
     content = (
       <AdminWrapper>
         {appointments.map((appointment) => (

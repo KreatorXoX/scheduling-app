@@ -1,5 +1,6 @@
-import { IAppointment, IEmployeeWithAppointments } from "@/types/types";
 import { create } from "zustand";
+
+import { IAppointment, IEmployeeWithAppointments } from "@/types/types";
 
 interface AppointmentModalState {
   appointment?: IAppointment;

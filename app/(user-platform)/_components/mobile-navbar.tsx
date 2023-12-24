@@ -1,7 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
+
+import { Role } from "@prisma/client";
 
 import { signOutUser } from "@/actions/auth";
 
@@ -15,9 +18,13 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 import UserAvatar from "./user-avatar";
 
-type Props = { userImage?: string | null; username?: string | null };
+type Props = {
+  userImage?: string | null;
+  username?: string | null;
+  role?: Role;
+};
 
-const MobileSidebar = ({ userImage, username }: Props) => {
+const MobileSidebar = ({ userImage, username, role }: Props) => {
   const { onOpen, onClose, isOpen } = useMobileSidebar();
   const currentPath = usePathname();
 
@@ -63,24 +70,26 @@ const MobileSidebar = ({ userImage, username }: Props) => {
               My Appointments
             </Link>
           </Button>
-          <Button
-            size={"sm"}
-            variant={"link"}
-            asChild
-            className="w-full justify-start"
-            onClick={onClose}
-          >
-            <Link
-              href={"/make-appointment"}
-              className={cn(
-                currentPath === "/make-appointment"
-                  ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
-                  : ""
-              )}
+          {role !== Role.EMPLOYEE ? (
+            <Button
+              size={"sm"}
+              variant={"link"}
+              asChild
+              className="w-full justify-start"
+              onClick={onClose}
             >
-              Make Appointment
-            </Link>
-          </Button>
+              <Link
+                href={"/make-appointment"}
+                className={cn(
+                  currentPath === "/make-appointment"
+                    ? "underline bg-black/10 dark:bg-slate-700 dark:text-white"
+                    : ""
+                )}
+              >
+                Make Appointment
+              </Link>
+            </Button>
+          ) : null}
 
           <Button
             size={"sm"}
